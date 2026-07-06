@@ -1,0 +1,2107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PRIME 4.3 Multi-Floor Seating</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACkElEQVR4nO3XO49NURQH8N/cGW8R8RbPICHCjMQrPoBOLyQKSl9AqZRIRHRKrYJIVEJBMRKJQkFBoUCIR5BIzIS5dxR7r5k9Z865cwdRYCUn55y9Hvu//nudfdamWRbhAM7gHkZwMusGKrZ9XeKswRFcwgu8w+rwi0BbsDLfB7EbO7EJrSLYYMMk41iMDViPbdiFIWzHior9RrxFawDD2It5DcHb+ZqLTkXXn3UHcD1n298AsCMx1ZffkajcmifvZMV4YdjKAcd1lyVYVwAO+4jRV8SZslwt7MDZQjmQjUvqm6Sdfe5gD+4WvhGnW31MkdsZxJhJJuL6nu8Xsm21CIP2TRiV2OyYHifG9oVfC3NygMd5cCa666QjZf1GKq4p69xNWtkwCu1XJLIem41Tuc4/k/kvSy+F9h/AXwlgot7+WQb+A5j4P8x2I/rtm1X8Kpn+r/8jUjIw2oN99S9YlegjZgUgaP3Sg/3SGfTzpV4ywPQEIOR9F7sItjnfq8sV+lVY1svEJYBg4GUNKJWxXVL7VW2topaGpGVqmwUDAeCZ1HqXYyF9OehyHM76sh7C51h+n+lrmQYuBh5qbsvaEvWPislbJtk5KLVu7Rrfaku2P/v0h3P0dLe6ZBBZDuGadIaIgIfz2EwddOjmq+mOSYeIsSLbuiwiw694IPWSTZk2NbcnCiATEixcyUbfGoLULVE7j33GxQrQOr9hLKzSE+u5Cq97ABEN6PfC7nSO8aHQN7HzFFfrQJCK5GORSd2SVCc4V8Q5Wsk6YsRz6J5UATC5FDukomxiIK43OFX4hv8paXOr8/mE81jQtFnEoZN0tD4ufWZrpUPqCJ7jJi7jVcUnnjdm30PSNv4e93Ej+/sBHNjvzSbux/8AAAAASUVORK5CYII=">
+  <style>
+    :root {
+      --navy: #001f45;
+      --blue: #006bd6;
+      --blue-soft: #eaf4ff;
+      --green: #83d47e;
+      --line: #cfdde9;
+      --muted: #54708f;
+      --wall: #5b6d80;
+      --window: #9cff19;
+      --bg: #f6f9fc;
+      --open: #fff;
+      --hotel: #fff6cf;
+      --followup: #bff4ff;
+      --unmatched: #f8fbff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--navy);
+      background: var(--bg);
+    }
+    @media (min-width: 1181px) {
+      body { overflow: hidden; }
+    }
+    .topbar {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+    .topbar::before,
+    .topbar::after {
+      content: "";
+      position: absolute;
+      top: -28px;
+      width: 6px;
+      height: 124px;
+      background: var(--window);
+      transform: rotate(21deg);
+    }
+    .topbar::before {
+      left: 156px;
+      top: -14px;
+      height: 92px;
+    }
+    .topbar::after { right: 42px; }
+    .brand { position: relative; z-index: 1; line-height: 1; }
+    .brand strong { display: block; font-size: 34px; letter-spacing: -1px; }
+    .brand span { color: var(--muted); font-size: 12px; }
+    .topbar-spacer {
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
+    .upbound-logo {
+      position: relative;
+      z-index: 1;
+      width: 168px;
+      height: auto;
+      display: block;
+      margin-right: 78px;
+    }
+    .layout {
+      height: calc(100vh - 64px);
+      display: grid;
+      grid-template-columns: 264px minmax(760px, 1fr) 318px;
+      overflow: hidden;
+    }
+    aside, .details {
+      background: #fff;
+      border-right: 1px solid var(--line);
+    }
+    .details {
+      border-right: 0;
+      border-left: 1px solid var(--line);
+    }
+    .panel { padding: 18px 14px; }
+    aside, .details { overflow: auto; }
+    .section-title {
+      font-size: 12px;
+      color: #405d7f;
+      font-weight: 900;
+      letter-spacing: .18em;
+      margin-bottom: 14px;
+    }
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-size: 11px;
+      color: #28496e;
+      font-weight: 800;
+    }
+    input[type="search"], select {
+      width: 100%;
+      height: 39px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 12px;
+      color: var(--navy);
+      background: #fff;
+      font: inherit;
+      font-size: 13px;
+    }
+    button {
+      height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--navy);
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .primary {
+      width: 100%;
+      margin-top: 14px;
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
+    .filter-reset {
+      width: 100%;
+      margin-top: 14px;
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
+    .filter-reset:hover { background: #00346f; }
+    .filter-reset:focus-visible {
+      outline: 3px solid #9cff19;
+      outline-offset: 2px;
+    }
+    .data-state, .missing {
+      color: #42658d;
+      font-size: 11px;
+      line-height: 1.55;
+      margin-top: 12px;
+    }
+    .data-state:empty, .missing:empty { display: none; }
+    .missing {
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+      max-height: 150px;
+      overflow: auto;
+    }
+    .missing.warn { color: #8a360d; }
+    .main {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+    .heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 24px 10px;
+    }
+    h1 { margin: 0; font-size: 24px; }
+
+    .floor-tabs {
+      display: inline-flex;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 4px;
+      border: 1px solid #cfe1f4;
+      border-radius: 10px;
+      background: #fff;
+    }
+    .floor-tab {
+      height: 30px;
+      padding: 0 12px;
+      border: 0;
+      border-radius: 7px;
+      background: transparent;
+      color: #42658d;
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .floor-tab.active {
+      background: var(--navy);
+      color: #fff;
+    }
+    .zoom { display: flex; gap: 8px; align-items: center; color: #42658d; font-size: 12px; }
+    .zoom button {
+      width: 34px;
+      border-color: #c7e1ff;
+      background: var(--blue-soft);
+    }
+    .zoom .fit { width: 42px; }
+    .label-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 36px;
+      padding: 0 10px;
+      border: 1px solid #c7e1ff;
+      border-radius: 999px;
+      background: #fff;
+      color: #42658d;
+      font-size: 11px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .label-toggle input {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      opacity: 0;
+    }
+    .toggle-track {
+      position: relative;
+      width: 44px;
+      height: 22px;
+      border-radius: 999px;
+      background: #dcecff;
+      border: 1px solid #b7d6f6;
+      transition: background .16s, border-color .16s;
+    }
+    .toggle-track::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #fff;
+      border: 1px solid #b9cde1;
+      box-shadow: 0 2px 5px rgba(0, 31, 69, .18);
+      transition: transform .16s;
+    }
+    .label-toggle input:checked + .toggle-track {
+      background: var(--navy);
+      border-color: var(--navy);
+    }
+    .label-toggle input:checked + .toggle-track::after {
+      transform: translateX(22px);
+      border-color: #fff;
+    }
+    .label-toggle input:focus-visible + .toggle-track {
+      outline: 3px solid var(--window);
+      outline-offset: 2px;
+    }
+    .map-card {
+      margin: 0 24px 20px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      padding: 18px;
+      box-shadow: 0 18px 44px rgba(0, 31, 69, .08);
+      min-height: 0;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+    }
+    .viewport {
+      height: auto;
+      min-height: 0;
+      overflow: hidden;
+      border: 1px solid #cbd6e2;
+      border-radius: 12px;
+      background: #fff;
+      touch-action: none;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .viewport.dragging { cursor: grabbing; }
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .field {
+      fill: #fff;
+      stroke: none;
+    }
+    .direction {
+      fill: #2b4f77;
+      font-size: 14px;
+      font-weight: 950;
+      letter-spacing: .12em;
+      text-anchor: middle;
+    }
+    .window {
+      fill: var(--window);
+      stroke: #455869;
+      stroke-width: 2;
+      rx: 2;
+    }
+    .orientation {
+      fill: #304e73;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-anchor: middle;
+    }
+    .row-label, .zone-label {
+      fill: #304e73;
+      font-size: 11px;
+      font-weight: 900;
+      text-anchor: middle;
+    }
+    .zone-label { font-size: 12px; }
+    .seat {
+      fill: #fff;
+      stroke: #52677e;
+      stroke-width: 1.25;
+      cursor: pointer;
+      filter: drop-shadow(0 5px 9px rgba(0, 31, 69, .08));
+      transition: fill .12s, stroke .12s, opacity .12s, filter .12s;
+    }
+    .seat.occupied { fill: var(--green); stroke: #54a96a; }
+    .seat.vacant { fill: var(--open); }
+    .seat.hotel { fill: var(--hotel); stroke: #d3b766; }
+    .seat.followup { fill: var(--followup); stroke: #42bcd2; }
+    .seat.unmatched { fill: #f8fbff; stroke: #b8c9da; }
+    .seat.office {
+      stroke-width: 1.35;
+    }
+    .seat.cubicle {
+      stroke-width: 1.25;
+    }
+    .seat.desk.occupied {
+      fill: var(--green);
+    }
+    .seat:hover, .seat.selected {
+      stroke: var(--blue);
+      stroke-width: 4;
+      filter: drop-shadow(0 0 5px rgba(0, 107, 214, .45));
+    }
+    .seat-group:focus { outline: none; }
+    .seat-group:focus .seat {
+      stroke: var(--navy);
+      stroke-width: 4;
+    }
+    .seat.exact-person {
+      stroke: #004f9f;
+      stroke-width: 5;
+      animation: exactPersonPulse 1.35s ease-in-out infinite;
+    }
+    @keyframes exactPersonPulse {
+      0%, 100% {
+        stroke-width: 4;
+        filter: drop-shadow(0 0 3px rgba(0, 107, 214, .45));
+      }
+      50% {
+        stroke-width: 7;
+        filter: drop-shadow(0 0 13px rgba(0, 107, 214, .95));
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .seat.exact-person {
+        animation: none;
+        stroke-width: 7;
+        filter: drop-shadow(0 0 9px rgba(0, 107, 214, .85));
+      }
+    }
+    .seat.dimmed { opacity: .15; }
+    .conference-room {
+      fill: #f8fbff;
+      stroke: #b8c9da;
+      stroke-width: 1.35;
+      cursor: pointer;
+      filter: drop-shadow(0 5px 9px rgba(0, 31, 69, .08));
+      transition: fill .12s, stroke .12s, opacity .12s, filter .12s;
+    }
+    .conference-room.occupied { fill: var(--green); stroke: #54a96a; }
+    .conference-room.vacant { fill: var(--open); }
+    .conference-room.hotel { fill: var(--hotel); stroke: #d3b766; }
+    .conference-room.followup { fill: var(--followup); stroke: #42bcd2; }
+    .conference-room.unmatched { fill: #f8fbff; stroke: #b8c9da; }
+    .conference-room:hover, .conference-room.selected {
+      stroke: var(--blue);
+      stroke-width: 4;
+      filter: drop-shadow(0 0 5px rgba(0, 107, 214, .45));
+    }
+    .conference-room.dimmed { opacity: .15; }
+    .conference-room-text {
+      pointer-events: none;
+      fill: var(--navy);
+      font-size: 8.5px;
+      font-weight: 900;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .seat-text {
+      pointer-events: none;
+      fill: var(--navy);
+      font-size: 8px;
+      font-weight: 900;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .seat-text.rotated {
+      writing-mode: tb;
+      glyph-orientation-vertical: 0deg;
+    }
+    .legend {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      flex-wrap: wrap;
+      color: #42658d;
+      font-size: 12px;
+      margin-top: 16px;
+    }
+    .key { display: flex; align-items: center; gap: 7px; }
+    .swatch {
+      width: 12px;
+      height: 12px;
+      border: 1px solid #b6cadf;
+      border-radius: 3px;
+      background: #fff;
+    }
+    .swatch.occupied { background: var(--green); }
+    .swatch.hotel { background: var(--hotel); }
+    .swatch.followup { background: var(--followup); }
+    .swatch.outline { background: #eef5fb; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+    .stats-heading {
+      grid-column: 1 / -1;
+      color: #405d7f;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .stat {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      column-gap: 8px;
+      align-items: center;
+      min-width: 0;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f9fcff;
+    }
+    .stat.total {
+      grid-column: 1 / -1;
+      grid-template-columns: 34px 1fr;
+      padding: 11px;
+      background: #fff;
+      border-color: #9db7d1;
+    }
+    .stat.total b { font-size: 27px; }
+    .stat.total span { font-size: 12px; font-weight: 800; }
+    .stat-icon {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: #f5faff;
+      border: 1px solid #cfe1f4;
+      color: #335f89;
+    }
+    .stat-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .stat b { display: block; font-size: 19px; line-height: 1; }
+    .stat span { color: #42658d; font-size: 10px; line-height: 1.15; }
+    .green { color: #42b549; }
+    .gold { color: #b99a00; }
+    .blue { color: #005fc6; }
+    .active {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #405d7f;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .1em;
+    }
+    .active::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #79c96d;
+    }
+    .active.inactive { color: #7a8da4; }
+    .active.inactive::before { background: #b7c4d0; }
+    .detail-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .person-photo {
+      width: 132px;
+      height: 132px;
+      margin: 18px auto 0;
+      border: 1px solid #c7d9e9;
+      border-radius: 8px;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      position: relative;
+      background: #f4f7fa;
+      color: #71849a;
+    }
+    .person-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .person-photo.empty::before {
+      content: "";
+      position: absolute;
+      top: 25px;
+      width: 36px;
+      height: 36px;
+      border: 4px solid #8d9baa;
+      border-radius: 50%;
+    }
+    .person-photo.empty::after {
+      content: "";
+      position: absolute;
+      bottom: 20px;
+      width: 74px;
+      height: 42px;
+      border: 4px solid #8d9baa;
+      border-bottom: 0;
+      border-radius: 42px 42px 0 0;
+    }
+    .photo-label {
+      margin-top: 9px;
+      color: #6680a0;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .desk-id {
+      margin: 17px 0 7px;
+      font-size: 29px;
+      font-weight: 950;
+      letter-spacing: -.03em;
+    }
+    .status-pill {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 5px 10px;
+      background: #dff4d9;
+      color: #184f26;
+      font-size: 12px;
+      font-weight: 900;
+      margin: 0 0 15px;
+    }
+    .status-pill.vacant, .status-pill.unmatched {
+      background: #f2f7fb;
+      color: #365979;
+      border: 1px solid #cfdde9;
+    }
+    .status-pill.hotel {
+      background: #fff3be;
+      color: #654e00;
+    }
+    .status-pill.followup {
+      background: #dbfbff;
+      color: #075569;
+      border: 1px solid #8be2f0;
+    }
+    .detail-block {
+      border-top: 1px solid var(--line);
+      padding: 15px 0;
+    }
+    .detail-block label {
+      margin: 0 0 6px;
+      color: #6680a0;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .detail-block div {
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: 850;
+      overflow-wrap: anywhere;
+    }
+    .muted { color: #54708f !important; font-weight: 500 !important; }
+    @media (max-width: 1180px) {
+      .layout { grid-template-columns: 250px minmax(620px, 1fr); }
+      .details { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--line); }
+    }
+  
+    /* =========================================================
+       PRIME RESPONSIVE SCALING PATCH
+       Purpose: prevent the map from shrinking, prevent the details
+       panel from dropping too early, and make the SVG fit the actual
+       desk layout on any screen size.
+       ========================================================= */
+
+    html {
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
+    }
+
+    .viewport > svg {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+    }
+
+    @media (min-width: 981px) {
+      body {
+        overflow-y: auto;
+      }
+
+      .layout {
+        height: auto;
+        min-height: calc(100svh - 64px);
+        grid-template-columns:
+          clamp(235px, 19vw, 300px)
+          minmax(0, 1fr)
+          clamp(285px, 23vw, 370px);
+        overflow: visible;
+      }
+
+      aside,
+      .details {
+        max-height: calc(100svh - 64px);
+        overflow: auto;
+      }
+
+      .details {
+        grid-column: auto;
+        border-left: 1px solid var(--line);
+        border-top: 0;
+      }
+
+      .main {
+        min-width: 0;
+        min-height: calc(100svh - 64px);
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      .heading {
+        padding: clamp(16px, 1.6vw, 24px) clamp(16px, 2vw, 28px) 10px;
+      }
+
+      .map-card {
+        height: calc(100svh - 148px);
+        min-height: 520px;
+        margin: 0 clamp(16px, 2vw, 28px) clamp(16px, 2vw, 24px);
+        padding: clamp(14px, 1.6vw, 20px);
+      }
+
+      .viewport {
+        height: 100%;
+        min-height: 420px;
+      }
+    }
+
+    @media (max-width: 980px) {
+      body {
+        overflow-y: auto;
+      }
+
+      .topbar {
+        min-height: 64px;
+        height: auto;
+        gap: 14px;
+      }
+
+      .upbound-logo {
+        width: clamp(120px, 28vw, 168px);
+        margin-right: 0;
+      }
+
+      .topbar::after {
+        right: 10px;
+      }
+
+      .layout {
+        height: auto;
+        min-height: calc(100svh - 64px);
+        grid-template-columns: 1fr;
+        overflow: visible;
+      }
+
+      aside,
+      .details {
+        max-height: none;
+        overflow: visible;
+        border-right: 0;
+      }
+
+      .details {
+        grid-column: auto;
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .main {
+        min-width: 0;
+        min-height: auto;
+        display: block;
+      }
+
+      .heading {
+        flex-wrap: wrap;
+        padding: 18px 16px 10px;
+      }
+
+      .zoom {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .map-card {
+        margin: 0 16px 18px;
+        padding: 14px;
+        min-height: 0;
+        display: block;
+      }
+
+      .viewport {
+        height: clamp(420px, 62svh, 720px);
+        min-height: 420px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 12px 14px;
+      }
+
+      .topbar-spacer {
+        display: none;
+      }
+
+      .topbar::before,
+      .topbar::after {
+        display: none;
+      }
+
+      .brand strong {
+        font-size: clamp(30px, 12vw, 44px);
+      }
+
+      .brand span {
+        font-size: 13px;
+      }
+
+      .upbound-logo {
+        width: 128px;
+      }
+
+      .heading {
+        display: block;
+      }
+
+      .floor-tabs {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .floor-tab {
+        width: 100%;
+        padding: 0 6px;
+      }
+
+      .zoom {
+        margin-top: 12px;
+      }
+
+      .map-card {
+        margin: 0 10px 14px;
+        padding: 10px;
+        border-radius: 12px;
+      }
+
+      .viewport {
+        height: 58svh;
+        min-height: 360px;
+      }
+
+      .legend {
+        gap: 10px 14px;
+        font-size: 11px;
+      }
+
+      .panel {
+        padding: 16px 12px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <strong>PRIME</strong>
+      <span>Primary Seating Source</span>
+    </div>
+    <div class="topbar-spacer" aria-hidden="true"></div>
+    <img class="upbound-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASsAAABLCAYAAAAoJ6FaAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFxEAABcRAcom8z8AABk/SURBVHhe7Z0F1BZFF8exu7ADE7swMLGxuyVExcRACQM7sFDswA4UFbtRERREFAXE7m4EbFHQ+c5vvrOcfe/O7M593ueRZ3H+5/zP58e7M8/uzsx/7ty5d7aJiYiIiCgBmsh/iIiIiKhHRLGKiIgoBaJYRURElAJRrCIiIkqBKFYRERGlQBSriIiIUiCKVURERCkQxarO8Pfff5vx48eb7777zv53RMS0hr/++st8++23ZsL4CfJPuYhiVSeYOHGiefXVV81pp51mmjdvbuaZZx5z1113ycsiIkqLH374wTz88MOmTZs2Zs455zQbbLCB+eqrr+RlXkSxmspghrnlllvMfvvtZxZbbDHTpEmTKTzkkEPk5RERpcPo0aPNWWedZTbddFMzyyyzTOnfTMgDBgyQl3sRxepfBMu6n3/+2XzyySfmjjvuMPvss49p1qyZmXnmmRuIVMKDDz5YVhERUddgiYcbY9SoUeb88883G2+8sWnatKmZfvrpM/177rnnNk888YSswosoVv8C3n//fXPjjTeaLl26mM0339zMMcccmYZzMYpVRBmAC+O5554zF198senQoYNZZZVVzHTTTZfpz5KI1ZNPPimr8yKKVY3x/fffm2222SbTUCGMYhVRBjz99NNm9tlnz/TfIkaxqjOMGzfO7LXXXmammWbKNFYRo1hFlAGDBg3K+FtDGMWqDoGf6sEHHzQbbrhhpsHyGMUqoizAD3vuueeaeeedN9OPfYxiVccYPHiwbSDZaD5GsYooG7p165bpxz5GsapjfPnll2a99dbLNJqPUawiyob7778/0499jGJVx8B/tdVWW2UazccoVhFlA+Iz66yzZvqyi1Gs6hjEn2h2BqNYRZQNTz31VPDO4FQTKwIesRzYqq82JkyYYCO9J02aJP+kAqH9t912m7nkkkvMjz/+KP9s8eeff5rPP//cjBw50vqY2JZ94YUXzOuvv26XcQS9VYpqiNU///xj3/M777xj74v7YzdmxIgR5sMPP/Q+V63w66+/2vf1xhtvmOHDh5uBAwfaDjtkyBCbPvTBBx+YsWPHmsmTJ8uiNQG/Q14l77qaSN47/Zv/bgx+//13+67OPvts23Y+JH2RAEv6Iu916NCh5rXXXjOfffaZ+e2332SRqoL4qS+++ML2fX6XvkY8FffjGwt1K1bk+rz88ss2XYSAR8LpCXoc89oYeakK7J7xQu68805z8sknm6233tqss8465tlnn5WXFgKBI9z/vPPOM2ussYZ9SUSME0GeBg3Djt1BBx1kVl555UzE7WyzzWbLd+zY0ZYdP04/GBorVm+99ZY588wzzWabbZbZdSEIb/HFFzfbbrutOeecc8zIV0eavyfXJhGawUan5Xd23313s+qqq9r3I+8fLrLIIrZfdOrUydx66612kFUTCAcTGYPpuuuuM0ceeaRZf/31zR577GF3qBoDxOmll16y9921a1f73onIph0qASJKvme7du2mDGjqlMKKCD300EO2L6600kqZsJcZZ5zR5o/yjJdddpn5+OOPG5RvLL755htz0003mf33398GeKZTZJLfX2211cyhhx5qHnnkESuqCaaqWDHY//jjD2uVMJMjTCeccILZaaedzFprrWXjK9IDe4YZZjDXXHONrCaDyZMmm4l/TLQNiOD169fPJvHS+Vu2bOlMQ2EmCgGz60cffWSuvfZas+OOO5olllgiE1Gbruu9994z++67b/BLZk2+7rrr2o6nsfYqFSs6Q+/evc3SSy+ducZH2uXwww+3M3O1wLMi6DzDAgsskPnNItI3VlxxRdOtazeVaCFIzOIM4k8//dRaIwjTsccea++FSWShhRZq0MYkyj722GOyqgag3nT/HjZsmO3fxx9/fIP+zeBMPwfXhID6f/nlFzuAjzrqKNOiRYtMH6NN022EJUpcHvcv35+LPDOCdumllzYQjUrAhH3DDTfY9ynHno9kY5CYjFUPpopY/fTTT+bUU0+1s+aCCy5obwqFpcPJH00T4br66qtldQ3AwKMjMOtSL4O/qF54xhlnyKossPDGjBljM7pPOukku+NWlNJC5wHMyMsvv3zm7yHknpn9ENwQaMWKmYvBxG/Iv4Vy2WWXtbNfY4+bwdJlIpEDt1Iuuuii5qqrripcynz99dfWWqKN5p9/fjsQGEjS8pWk/R999FFZ3RTwuz169LAWAkKX9O+ieiGpUy7QVlg5L774op2wmQBdYpcmz0M6FmDpvNxyy2WuCSUW29jvx8rbCgJWKCIp6wwlgkkf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" alt="Upbound">
+  </header>
+  <div class="layout">
+    <aside>
+      <div class="panel">
+        <div class="section-title">FILTERS & CONTROLS</div>
+        <label for="search">Search by name, desk ID, or keyword</label>
+        <input id="search" type="search" placeholder="Search...">
+        <label for="department">Department / Team</label>
+        <select id="department"><option value="">All</option></select>
+        <label for="directReport">Team Lead</label>
+        <select id="directReport"><option value="">All</option></select>
+        <label for="status">Seat Status</label>
+        <select id="status">
+          <option value="">All</option>
+          <option value="occupied">Occupied</option>
+          <option value="vacant">Vacant / Open</option>
+          <option value="hotel">Shared / Hotel</option>
+          <option value="followup">Needs Follow-up</option>
+          <option value="unmatched">No Data Match</option>
+        </select>
+        <button class="filter-reset" id="reset" type="button">Reset Filters</button>
+        <div class="data-state" id="dataState" aria-live="polite">Waiting for Power Automate export...</div>
+        <div class="missing" id="missing" aria-live="polite"></div>
+        <section class="stats" aria-label="Floor statistics">
+          <div class="stats-heading" id="statsTitle">Floor 1 Summary</div>
+          <div class="stat total">
+            <span class="stat-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M6 7v12"/><path d="M18 7v12"/><path d="M8 11h8"/><path d="M8 15h8"/><path d="M10 19h4"/></svg></span>
+            <div><b id="totalSeats">0</b><span>Total Desks</span></div>
+          </div>
+          <div class="stat">
+            <span class="stat-icon"><svg viewBox="0 0 24 24"><path d="M16 11a4 4 0 1 0-8 0"/><path d="M4 21a8 8 0 0 1 16 0"/><path d="m16 4 2 2 4-4"/></svg></span>
+            <div><b class="green" id="occupiedSeats">0</b><span>Occupied</span></div>
+          </div>
+          <div class="stat">
+            <span class="stat-icon"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M9 4v16"/><path d="M14 12h1"/></svg></span>
+            <div><b id="openSeats">0</b><span>Open</span></div>
+          </div>
+          <div class="stat">
+            <span class="stat-icon"><svg viewBox="0 0 24 24"><path d="M4 11h16"/><path d="M6 11V7a2 2 0 0 1 2-2h3v6"/><path d="M13 11V5h3a2 2 0 0 1 2 2v4"/><path d="M6 11v7"/><path d="M18 11v7"/></svg></span>
+            <div><b class="gold" id="hotelSeats">0</b><span>Shared / Hotel</span></div>
+          </div>
+          <div class="stat">
+            <span class="stat-icon"><svg viewBox="0 0 24 24"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 2.8 18a2 2 0 0 0 1.8 3h14.8a2 2 0 0 0 1.8-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></span>
+            <div><b class="blue" id="followupSeats">0</b><span>Needs Follow-up</span></div>
+          </div>
+        </section>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="heading">
+        <div>
+          <h1 id="floorTitle">Floor 1</h1>
+          <div class="floor-tabs" id="floorTabs" aria-label="Floor selector"></div>
+        </div>
+        <div class="zoom">
+          <label class="label-toggle" for="labelMode">
+            <span>ID</span>
+            <input id="labelMode" type="checkbox" aria-label="Toggle desk labels between seat ID and assigned person">
+            <span class="toggle-track" aria-hidden="true"></span>
+            <span>Name</span>
+          </label>
+          <button id="zoomOut" type="button" aria-label="Zoom out" title="Zoom out">−</button>
+          <span id="zoomLabel">100%</span>
+          <button id="zoomIn" type="button" aria-label="Zoom in" title="Zoom in">+</button>
+          <button class="fit" id="fit" type="button" aria-label="Fit floor map to view" title="Fit floor map to view">Fit</button>
+        </div>
+      </div>
+      <section class="map-card">
+        <div class="viewport" id="viewport">
+          <svg id="map" viewBox="0 0 1600 900" role="img" aria-label="Floor 1 interactive seating row map"></svg>
+        </div>
+        <div class="legend">
+          <span class="key"><span class="swatch occupied"></span> Occupied</span>
+          <span class="key"><span class="swatch"></span> Vacant</span>
+          <span class="key"><span class="swatch hotel"></span> Shared / Hotel</span>
+          <span class="key"><span class="swatch followup"></span> Needs Follow-up</span>
+          <span class="key"><span class="swatch outline"></span> No Data Match</span>
+        </div>
+      </section>
+    </main>
+    <section class="details">
+      <div class="panel">
+        <div class="detail-top">
+          <div class="section-title" style="margin:0;">DESK DETAILS</div>
+          <div class="active inactive" id="selectionState">NO SELECTION</div>
+        </div>
+        <div class="desk-id" id="detailSeat">Select a desk</div>
+        <div class="status-pill unmatched" id="detailStatus">No selection</div>
+        <div class="detail-block"><label>Name</label><div id="detailName" class="muted">Click a desk to view assignment details.</div></div>
+        <div class="detail-block"><label>Department / Team</label><div id="detailDept" class="muted">Not assigned</div></div>
+        <div class="detail-block"><label>Team Lead</label><div id="detailDirectReport" class="muted">Not assigned</div></div>
+        <div class="detail-block"><label>Title</label><div id="detailTitle" class="muted">Not assigned</div></div>
+        <div class="detail-block"><label>Email</label><div id="detailEmail" class="muted">Not assigned</div></div>
+        <div class="person-photo empty" id="detailPhoto" aria-label="No employee photo"></div>
+        <div class="photo-label">Employee Photo</div>
+      </div>
+    </section>
+  </div>
+  <script>
+/*!
+
+JSZip v3.10.1 - A JavaScript class for generating and reading zip files
+<http://stuartk.com/jszip>
+
+(c) 2009-2016 Stuart Knightley <stuart [at] stuartk.com>
+Dual licenced under the MIT license or GPLv3. See https://raw.github.com/Stuk/jszip/main/LICENSE.markdown.
+
+JSZip uses the library pako released under the MIT license :
+https://github.com/nodeca/pako/blob/main/LICENSE
+*/
+ </script>
+  <script>
+    const SVG_NS = "http://www.w3.org/2000/svg";
+    const MAP_W = 1600;
+    const MAP_H = 900;
+    const DATA_SOURCE_URLS = [];
+    // Power Automate generates the live PRIME.html file by replacing this token with the latest CSV as Base64.
+    // Users do not upload CSVs and the app does not fetch cross-origin SharePoint files.
+    const PRIME_CSV_BASE64 = "__PRIME_CSV_BASE64__";
+    const EMBEDDED_ROWS = [];
+
+    const state = {
+      selected: null,
+      selectedRoom: null,
+      rows: [],
+      bySeat: new Map(),
+      zoom: 1,
+      panX: 0,
+      panY: 0,
+      dragging: false,
+      dragStart: null,
+      sourceFile: null,
+      floor: "1",
+      labelMode: "seat",
+      loadedAt: new Date()
+    };
+
+    const aliases = {
+      seatId: ["seat_id", "seatid", "seat", "desk_id", "deskid", "workspace_id", "workspaceid"],
+      name: ["occupant_name", "occupantname", "occupant_name2", "occupantname2", "name", "employee", "employee_name"],
+      department: ["department_team", "departmentteam", "department", "team", "dept"],
+      directReport: ["team_lead", "teamlead", "direct_report", "directreport", "manager", "reports_to", "reportsto"],
+      verification: ["verification", "verification_status", "verificationstatus", "status", "seat_status", "seatstatus"],
+      title: ["title", "job_title", "jobtitle"],
+      workspace: ["workspace", "workspace_type", "workspacetype", "type", "seat_type", "seattype"],
+      email: ["work_email", "workemail", "email", "employee_email", "employeeemail", "mail"],
+      imageUrl: ["image_url", "imageurl", "image", "photo_url", "photourl", "photo", "headshot_url", "headshoturl"]
+    };
+
+    function rect(id, x, y, w, h, workspace = "Cubicle", rotate = 0) {
+      return { id, x, y, w, h, workspace, rotate };
+    }
+
+    function poly(id, points, workspace = "Office") {
+      const xs = points.map(point => point[0]);
+      const ys = points.map(point => point[1]);
+      const x = Math.min(...xs);
+      const y = Math.min(...ys);
+      const w = Math.max(...xs) - x;
+      const h = Math.max(...ys) - y;
+      return { id, x, y, w, h, workspace, points, cornerRadius: 8 };
+    }
+
+    function roundedPolygonPath(points, radius = 8) {
+      const corners = points.map((point, index) => {
+        const previous = points[(index - 1 + points.length) % points.length];
+        const next = points[(index + 1) % points.length];
+        const previousLength = Math.hypot(previous[0] - point[0], previous[1] - point[1]);
+        const nextLength = Math.hypot(next[0] - point[0], next[1] - point[1]);
+        const cornerRadius = Math.min(radius, previousLength / 2, nextLength / 2);
+        return {
+          point,
+          start: [
+            point[0] + (previous[0] - point[0]) / previousLength * cornerRadius,
+            point[1] + (previous[1] - point[1]) / previousLength * cornerRadius
+          ],
+          end: [
+            point[0] + (next[0] - point[0]) / nextLength * cornerRadius,
+            point[1] + (next[1] - point[1]) / nextLength * cornerRadius
+          ]
+        };
+      });
+      return corners.map((corner, index) => {
+        const prefix = index === 0 ? `M ${corner.start[0]} ${corner.start[1]}` : `L ${corner.start[0]} ${corner.start[1]}`;
+        return `${prefix} Q ${corner.point[0]} ${corner.point[1]} ${corner.end[0]} ${corner.end[1]}`;
+      }).join(" ") + " Z";
+    }
+
+    function grid(ids, x, y, w, h, cols, gapX = 0, gapY = 0, workspace = "Cubicle") {
+      const out = [];
+      const cellW = (w - gapX * (cols - 1)) / cols;
+      const rows = Math.ceil(ids.length / cols);
+      const cellH = (h - gapY * (rows - 1)) / rows;
+      ids.forEach((id, idx) => {
+        const c = idx % cols;
+        const r = Math.floor(idx / cols);
+        out.push(rect(id, x + c * (cellW + gapX), y + r * (cellH + gapY), cellW, cellH, workspace));
+      });
+      return out;
+    }
+
+    function angledGrid(ids, centerX, centerY, cellW, cellH, cols, gapX = 0, gapY = 0, workspace = "Cubicle", rotate = 22) {
+      const radians = rotate * Math.PI / 180;
+      const cos = Math.cos(radians);
+      const sin = Math.sin(radians);
+      return ids.map((id, idx) => {
+        const col = idx % cols;
+        const row = Math.floor(idx / cols);
+        const along = col * (cellW + gapX);
+        const down = row * (cellH + gapY);
+        const x = centerX + along * cos - down * sin;
+        const y = centerY + along * sin + down * cos;
+        return rect(id, x - cellW / 2, y - cellH / 2, cellW, cellH, workspace, rotate);
+      });
+    }
+
+    function hWindows(y, count, startX, gap, w = 45) {
+      return Array.from({ length: count }, (_, i) => ({ x: startX + i * gap, y, w, h: 10 }));
+    }
+
+    const floorPlans = {
+      "1": {
+        title: "Floor 1",
+        direction: "SOUTH WINDOWS",
+        notes: [{ text: "Genius Bar / IT", x: 112, y: 648 }],
+        rooms: [
+          { id: "PR-1121", x: 670, y: 438, w: 105, h: 88 },
+          { id: "PR-1123", x: 722, y: 548, w: 188, h: 104 },
+          { id: "PR-1074", x: 1032, y: 404, w: 70, h: 118 }
+        ],
+        seats: []
+      },
+      "2": {
+        title: "Floor 2",
+        outline: "M63 148 L1228 166 L1228 248 L1165 322 L1228 392 L1228 710 L1260 720 L1240 768 L1329 807 L1570 244 L1474 206 L1428 324 L1228 248 L1228 166 L63 148 L63 714 L1215 724 L1215 710 L63 714 Z",
+        windows: [
+          ...hWindows(152, 11, 76, 104, 45),
+          { x: 1230, y: 209, w: 18, h: 9, rotate: 39 },
+          { x: 1215, y: 720, w: 10, h: 18, rotate: 15 }
+        ],
+        notes: [],
+        rooms: [
+          { id: "2E-297A", x: 64, y: 360, w: 76, h: 54 },
+          { id: "PR-2045", x: 948, y: 704, w: 214, h: 94 }
+        ],
+        seats: [
+          ...grid(["2E-117G","2E-117Y","2E-108-Y","2E-107","2E-099","2E-100-Y","2E-092","2E-252","2E-087","2E-079Y"], 86, 184, 86, 158, 2),
+          ...grid(["2E-118","2E-119","2E-110","2E-111","2E-101","2E-102","2E-093","2E-094","2E-079G","2E-082"], 185, 184, 86, 158, 2),
+          ...grid(["2E-120","2E-116G","2E-112","2E-109","2E-103","2E-256-G","2E-095","2E-091","2E-081","2E-085"], 284, 184, 86, 158, 2),
+          ...grid(["2E-116Y","2E-115","2E-108-G","2E-106","2E-100-G","2E-098","2E-269","2E-090","2E-080","2E-086"], 383, 184, 86, 158, 2),
+          ...grid(["2E-114","2E-113","2E-105","2E-104","2E-097","2E-096","2E-089","2E-088","2E-083","2E-084"], 482, 184, 86, 158, 2),
+          ...grid(["2E-078","2E-077","2E-076","2E-044-G","2E-288","2E-002"], 610, 176, 617, 70, 6, 0, 0, "Office"),
+          ...grid(["2E-069","2E-068","2E-070","2E-067"], 614, 280, 82, 62, 2),
+          ...grid(["2E-065NC","2E-064NC","2E-063NC","2E-066NC"], 720, 280, 84, 62, 2),
+          ...grid(["2E-065","2E-064","2E-063","2E-066"], 824, 280, 82, 62, 2),
+          ...grid(["2E-047","2E-042","2E-048","2E-041"], 946, 280, 82, 62, 2),
+          ...grid(["2E-039","2E-034","2E-040","2E-033"], 1058, 280, 82, 62, 2),
+          ...[
+            rect("2E-124", 160, 362, 57.5, 77, "Office"),
+            rect("2E-126", 217.5, 362, 57.5, 77, "Office"),
+            rect("2E-129", 275, 362, 57.5, 77, "Office"),
+            rect("2E-130", 332.5, 362, 57.5, 77, "Office"),
+            rect("2E-138", 160, 439, 57.5, 77, "Office"),
+            rect("2E-125?", 217.5, 439, 57.5, 77, "Office"),
+            rect("2E-137", 332.5, 439, 57.5, 77, "Office")
+          ],
+          ...grid(["2E-296B"], 64, 414, 76, 102, 1, 0, 0, "Office"),
+          ...grid(["2E-279Y","2E-278Y","2E-289G","2E-289Y"], 64, 622, 194, 88, 4, 0, 0, "Office"),
+          ...grid(["2E-073","2E-058","2E-059","2E-060","2E-231","2E-057","2E-056"], 685, 366, 228, 158, 4, 0, 0, "Office"),
+          ...grid(["2E-051","2E-050","2E-049","2E-052","2E-054","2E-055"], 950, 366, 198, 158, 3, 0, 0, "Office"),
+          ...grid(["2E-032-Y","2E-032","2E-031","2E-030","2E-029"], 1148, 366, 50, 158, 1),
+          ...grid(["2E-235","2E-028","2E-027","2E-025","2E-026"], 1212, 372, 42, 136, 1),
+          ...grid(["2E-003","2E-006"], 1254, 384, 54, 130, 1, 0, 0, "Office"),
+          ...grid(["2E-156","2E-157","2E-155","2E-158","2E-154","2E-159","2E-160","2E-153","2E-161-Y","2E-161-G"], 284, 550, 84, 156, 2),
+          ...grid(["2E-165","2E-166","2E-164","2E-167","2E-163","2E-168","2E-169","2E-237","2E-162-G","2E-162-Y"], 384, 550, 84, 156, 2),
+          ...grid(["2E-173","2E-174","2E-172","2E-175","2E-171","2E-176","2E-177","2E-238","2E-170-G","2E-170-Y"], 484, 550, 84, 156, 2),
+          ...grid(["2E-181","2E-182","2E-180","2E-183","2E-179","2E-184","2E-250","2E-185","2E-178-G","2E-178-Y"], 582, 550, 84, 156, 2),
+          ...grid(["2E-189","2E-190","2E-188","2E-191","2E-187","2E-192","2E-193-G","2E-193-Y","2E-194","2E-186"], 680, 550, 84, 156, 2),
+          ...grid(["2E-198","2E-199","2E-197","2E-200","2E-196","2E-201","2E-203G","2E-202","2E-203Y","2E-195"], 780, 550, 84, 156, 2),
+          ...[
+            rect("2E-001", 1434, 190, 150, 104, "Office", 22)
+          ],
+          ...angledGrid(["2E-270G","2E-270Y"], 1496.5, 315.7, 38, 42, 2, 0, 0, "Office"),
+          ...angledGrid(["2E-149Y","2E-150G","2E-261Y","2E-261","2E-006Y","2E-007Y","2E-007G","2E-008G","2E-009","2E-262"], 1370, 402, 38, 42, 5, 0, 0),
+          ...angledGrid(["2E-011","2E-010","2E-012Y","2E-12","2E-256","2E-257","2E-258","2E-255"], 1360, 526, 38, 42, 4, 0, 0),
+          ...angledGrid(["2E-272Y","2E-254Y","2E-271Y"], 1320, 642, 48, 44, 3, 0, 0),
+          ...angledGrid(["2E-220","2E-221","2E-218","2E-219"], 1305, 724, 52, 46, 2, 0, 0),
+          ...angledGrid(["2E-273Y","2E-263"], 1223, 815, 82, 70, 2, 0, 0, "Office"),
+          ...grid(["2E-217","2E-216"], 1100, 556, 92, 120, 1, 0, 0, "Office")
+        ]
+      },
+      "3": {
+        title: "Floor 3",
+        outline: "M63 148 L1228 158 L1228 210 L1260 246 L1519 350 L1328 807 L1215 764 L1248 686 L1215 710 L63 714 Z",
+        windows: [
+          ...hWindows(152, 11, 78, 103, 45),
+          { x: 1226, y: 211, w: 18, h: 18, rotate: 48 },
+          { x: 1510, y: 342, w: 23, h: 11, rotate: 18 },
+          { x: 1320, y: 804, w: 26, h: 12, rotate: 18 }
+        ],
+        notes: [],
+        rooms: [
+          { id: "3E-Merchandising", label: "3E-\nMerchandising", x: 64, y: 236, w: 104, h: 96 },
+          { id: "3E-Marketing", label: "3E-\nMarketing", x: 64, y: 408, w: 104, h: 96 }
+        ],
+        seats: [
+          rect("3E-083", 64, 168, 104, 68, "Office"),
+          rect("3E-087", 64, 335, 104, 70, "Office"),
+          rect("3E-102", 64, 568, 104, 68, "Office"),
+          rect("3E-101", 64, 640, 104, 70, "Office"),
+          ...grid(["3E-079G","3E-078","3E-079Y","3E-211","3E-080","3E-077","3E-081","3E-076","3E-082","3E-075"], 190, 176, 84, 156, 2),
+          ...grid(["3E-070","3E-071","3E-213","3E-212","3E-072","3E-069","3E-073","3E-068","3E-074","3E-067"], 290, 176, 84, 156, 2),
+          ...grid(["3E-063G","3E-062G","3E-063Y","3E-062Y","3E-064","3E-061","3E-065","3E-060","3E-066","3E-059"], 389, 176, 84, 156, 2),
+          ...grid(["3E-055","3E-054","3E-215","3E-207","3E-056","3E-053","3E-057","3E-052","3E-058","3E-051"], 491, 176, 86, 156, 2),
+          ...grid(["3E-049Y","3E-049G"], 592, 176, 75, 88, 1, 0, 0, "Office"),
+          ...grid(["3E-048","3E-047","3E-046","3E-029","3E-028","3E-018"], 668, 176, 447, 88, 6, 0, 0, "Office"),
+          ...grid(["3E-045","3E-044","3E-043","3E-205","3E-042"], 592, 292, 154, 42, 5),
+          ...grid(["3E-041","3E-040","3E-039Y","3E-039G","3E-214"], 764, 292, 157, 42, 5),
+          ...grid(["3E-027","3E-026","3E-019"], 951, 292, 176, 77, 3, 0, 0, "Office"),
+          ...grid(["3E-023","3E-022","3E-021"], 949, 446, 178, 78, 3, 0, 0, "Office"),
+          rect("3E-020", 1068, 369, 59, 77, "Office"),
+          ...grid(["3E-034","3E-033"], 692, 357, 52, 162, 1, 0, 0, "Office"),
+          ...grid(["3E-035Y","3E-036Y","3E-309","3E-035G","3E-036G","3E-308"], 764, 370, 126, 62, 3),
+          ...grid(["3E-037G","3E-032Y","3E-031Y","3E-037Y","3E-032G","3E-031G"], 764, 450, 126, 62, 3),
+          ...grid(["3E-089","3E-090","3E-092","3E-091","3E-100","3E-099","3E-098","3E-097"], 195, 357, 200, 151, 4, 0, 0, "Office"),
+          ...grid(["3E-106","3E-107","3E-105","3E-108","3E-104","3E-109","3E-103Y","3E-110Y","3E-103G","3E-110G"], 184, 539, 84, 156, 2),
+          ...grid(["3E-114","3E-115","3E-113","3E-208","3E-112","3E-116","3E-111Y","3E-117Y","3E-111G","3E-117G"], 282, 539, 84, 156, 2),
+          ...grid(["3E-203","3E-2004","3E-118","3E-119","3E-120"], 400, 542, 154, 42, 5),
+          ...grid(["3E-121","3E-210","3E-122","3E-209","3E-123"], 578, 542, 154, 42, 5),
+          ...grid(["3E-213","3E-130","3E-125","3E-124","3E-131","3E-129","3E-126","3E-127"], 758, 542, 170, 64, 4),
+          rect("3E-132", 416, 612, 98, 108, "Office"),
+          rect("3E-133", 514, 612, 76, 108, "Office"),
+          rect("3E-134", 590, 612, 74, 108, "Office"),
+          ...grid(["3E-135","3E-136","3E-137","3E-138","3E-139"], 664, 636, 253, 84, 5, 0, 0, "Office"),
+          ...grid(["3E-193","3E-352"], 1068, 552, 94, 72, 2, 0, 0, "Office"),
+          ...grid(["3E-146","3E-147","3E-148"], 1068, 653, 143, 72, 3, 0, 0, "Office"),
+          poly("3E-015", [[1180,240],[1250,240],[1254,230],[1298,260],[1280,326],[1250,326],[1250,372],[1224,372],[1224,326],[1180,326]], "Office"),
+          rect("3E-013", 1148, 380, 70, 62, "Office"),
+          poly("3E-180", [[1298,260],[1367,292],[1314,450],[1250,450],[1250,372],[1280,372],[1280,326]], "Office"),
+          ...angledGrid(["3E-007","3E-008","3E-154","3E-153"], 1450, 505, 126, 75, 1, 0, 0, "Office", 22)
+        ]
+      }
+    };
+
+    let seats = floorPlans[state.floor].seats;
+
+    function addSeat(id, x, y, w, h, workspace = "Desk", rotate = 0) {
+      floorPlans["1"].seats.push({ id, x, y, w, h, workspace, rotate });
+    }
+
+    function buildRows() {
+      const displayOrder = "KJIHGFEDCBA".split("");
+      const rowXs = [151, 222, 292, 362, 433, 510, 588, 650, 725, 795, 865];
+      displayOrder.forEach((letter, rowIndex) => {
+        const x = rowXs[rowIndex];
+        const leftStack = [7, 8, 9, 10, 11, 12];
+        const rightStack = [6, 5, 4, 3, 2, 1];
+        leftStack.forEach((n, stack) => addSeat(`${letter}-${n}`, x, 153 + stack * 27, 26, 24, "Desk"));
+        rightStack.forEach((n, stack) => addSeat(`${letter}-${n}`, x + 27, 153 + stack * 27, 26, 24, "Desk"));
+      });
+    }
+
+    function buildOffices() {
+      const office = (id, x, y, w, h, rotate = 0) => addSeat(id, x, y, w, h, "Office", rotate);
+      const desk = (id, x, y, w, h, rotate = 0) => addSeat(id, x, y, w, h, "Desk", rotate);
+      const placeAngled = (id, originX, originY, localX, localY, w, h, workspace = "Office", rotate = 18) => {
+        const rad = rotate * Math.PI / 180;
+        const centerX = localX + w / 2;
+        const centerY = localY + h / 2;
+        const x = originX + centerX * Math.cos(rad) - centerY * Math.sin(rad) - w / 2;
+        const y = originY + centerX * Math.sin(rad) + centerY * Math.cos(rad) - h / 2;
+        addSeat(id, x, y, w, h, workspace, rotate);
+      };
+      office("1E-121L", 10, 153, 80, 146);
+      office("1E-144M", 10, 300, 80, 107);
+      office("1E-143M", 10, 408, 80, 107);
+      ["1E-099","1E-097","1E-098"].forEach((id, i) => office(id, 127, 352 + i * 55, 86, 54));
+      ["1E-100","1E-101","1E-102"].forEach((id, i) => office(id, 270, 356 + i * 55, 86, 54));
+      [["1E-GB05", 239, 565], ["1E-GB06", 276, 565], ["1E-GB04", 239, 606], ["1E-GB07", 276, 606], ["1E-GB03", 239, 647], ["1E-GB08", 276, 647], ["1E-GB02", 239, 688], ["1E-GB09", 276, 688]].forEach(([id, x, y]) => desk(id, x, y, 35, 40));
+
+      office("1E-012", 936, 152, 76, 73);
+      office("1E-001", 1012, 152, 106, 73);
+      office("1E-185", 1118, 152, 116, 73);
+      office("1E-023", 670, 353, 55, 86);
+      office("1E-019", 777, 355, 55, 85);
+      office("1E-018", 831, 355, 86, 54);
+      office("1E-017", 831, 410, 86, 54);
+      office("1E-016", 831, 465, 86, 54);
+
+      office("1E-011", 946, 248, 85, 54);
+      office("1E-002", 1031, 248, 84, 54);
+      office("1E-010", 946, 303, 85, 54);
+      office("1E-161", 1031, 303, 84, 54);
+      office("1E-009", 946, 358, 85, 54);
+      office("1E-008", 946, 413, 85, 54);
+      office("1E-007", 946, 468, 85, 54);
+      ["1E-019Y","1E-189Y","1E-189","1E-190","1E-191","1E-192","1E-193G","1E-193Y"].forEach((id, i) => desk(id, 1143, 255 + i * 32, 45, 30));
+      [["1E-212", 1065, 554], ["1E-211", 1065, 586], ["1E-214", 1130, 554], ["1E-213", 1130, 586]].forEach(([id, x, y]) => desk(id, x, y, 44, 31));
+
+      const eastX = 1252;
+      const eastY = 170;
+      placeAngled("1E-174", eastX, eastY, 0, 0, 92, 58);
+      placeAngled("1E-173", eastX, eastY, 92, 0, 116, 58);
+      placeAngled("1E-169", eastX, eastY, 208, 0, 104, 120);
+      placeAngled("1E-171", eastX, eastY, 208, 120, 104, 72);
+      placeAngled("1E-175", eastX, eastY, 208, 192, 104, 76);
+      placeAngled("1E-176", eastX, eastY, 208, 268, 104, 76);
+      placeAngled("1E-200", eastX, eastY, 208, 344, 104, 82);
+      placeAngled("1E-202", eastX, eastY, 208, 426, 104, 64);
+      placeAngled("1E-204", eastX, eastY, 208, 490, 104, 78);
+
+      [
+        ["1E-183Y", 14, 150], ["1E-183G", 60, 150], ["1E-177", 106, 150], ["1E-178", 152, 150],
+        ["1E-184", 60, 184], ["1E-179", 104, 184],
+        ["1E-180", 104, 218], ["1E-181", 70, 278], ["1E-152", 116, 278]
+      ].forEach(([id, x, y]) => placeAngled(id, eastX, eastY, x, y, 44, 32, "Desk"));
+    }
+
+    function addMissingFloorSeats() {
+      floorPlans["2"].seats.push(
+        rect("2E-022", 1222, 204, 76, 126, "Office", 22),
+        rect("2E-020", 1292.5, 232.5, 76, 126, "Office", 22)
+      );
+    }
+
+    function applySeatCorrections() {
+      const replacements = new Map([
+        ["2E-183-G", "2E-193-G"], ["2E-183G", "2E-193-G"],
+        ["3E-117", "3E-119"], ["3E-204", "3E-2004"], ["3E-300", "3E-308"], ["3E-128", "3E-213"]
+      ]);
+      Object.values(floorPlans).forEach(plan => {
+        const seen = new Set();
+        plan.seats = plan.seats.map(seat => ({ ...seat, id: replacements.get(seat.id) || seat.id }))
+          .filter(seat => {
+            const key = normSeat(seat.id);
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+          });
+      });
+    }
+
+    buildRows();
+    buildOffices();
+    addMissingFloorSeats();
+    applySeatCorrections();
+    seats = floorPlans[state.floor].seats;
+
+    function normSeat(value) {
+      let seat = String(value || "").trim().toUpperCase().replace(/[–—]/g, "-").replace(/\s+/g, "").replace(/\?$/, "");
+      seat = seat.replace(/^1-E-/, "1E-");
+      let rowMatch = seat.match(/^1E-([A-Z])-?0*(\d+)$/);
+      if (rowMatch) return `${rowMatch[1]}-${Number(rowMatch[2])}`;
+      rowMatch = seat.match(/^([A-Z])-?0*(\d+)$/);
+      if (rowMatch) return `${rowMatch[1]}-${Number(rowMatch[2])}`;
+      const office = seat.match(/^(\d+[A-Z])-0*(\d+)(?:-?([A-Z]+))?$/);
+      if (office) return `${office[1]}-${Number(office[2])}${office[3] || ""}`;
+      const bareOffice = seat.match(/^0*(\d+)([A-Z]*)$/);
+      if (bareOffice) return `1E-${Number(bareOffice[1])}${bareOffice[2] || ""}`;
+      return seat;
+    }
+
+
+    function floorForSeatId(id) {
+      const normalized = normSeat(id);
+      const first = normalized.charAt(0);
+      if ("ABCDEFGHIJK1".includes(first)) return "1";
+      if (first === "2") return "2";
+      if (first === "3") return "3";
+      return "";
+    }
+
+    function currentFloorRows() {
+      return state.rows.filter(row => floorForSeatId(row.seatId) === state.floor);
+    }
+
+    function statusFor(seat) {
+      return statusForId(seat.id, seat.workspace);
+    }
+
+    function statusForId(id, workspace = "") {
+      const row = rowFor(id);
+      if (!row) return "unmatched";
+      const text = `${row.verification || ""} ${row.workspace || workspace || ""} ${row.name || ""}`.toLowerCase();
+      if (text.includes("follow") || text.includes("unverified")) return "followup";
+      if (text.includes("hotel") || text.includes("shared")) return "hotel";
+      if (text.includes("vacant") || text.includes("open") || !row.name) return "vacant";
+      return "occupied";
+    }
+
+    function labelFor(status) {
+      return { occupied: "Occupied", vacant: "Vacant", hotel: "Shared / Hotel", followup: "Needs Follow-up", unmatched: "No Data Match" }[status] || status;
+    }
+
+    function personSeatLabel(name) {
+      const parts = String(name || "").trim().split(/\s+/).filter(Boolean);
+      if (!parts.length) return "";
+      if (parts.length === 1) return parts[0];
+      return `${parts[0]} ${parts[parts.length - 1].charAt(0).toUpperCase()}.`;
+    }
+
+    function seatDisplayLabel(seat) {
+      if (state.labelMode !== "person") return seat.id;
+      return personSeatLabel(rowFor(seat.id)?.name) || seat.id;
+    }
+
+    function workspaceClass(seat) {
+      const cubicles = new Set([
+        "1E-019Y","1E-189Y","1E-189","1E-190","1E-191","1E-192","1E-193G","1E-193Y",
+        "1E-183Y","1E-183G","1E-177","1E-178","1E-184","1E-179","1E-180","1E-181","1E-152",
+        "1E-211","1E-212","1E-213","1E-214"
+      ]);
+      if (seat.workspace === "Office") return "office";
+      if (seat.workspace === "Cubicle") return "cubicle";
+      if (cubicles.has(seat.id)) return "cubicle";
+      return "desk";
+    }
+
+    function rowFor(id) {
+      return state.bySeat.get(normSeat(id)) || null;
+    }
+
+    function roomFor(id) {
+      return (floorPlans[state.floor]?.rooms || []).find(room => room.id === id) || null;
+    }
+
+    function normalizeHeader(value) {
+      return String(value || "").trim().toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+    }
+
+    function cleanImportedValue(value) {
+      const cleaned = String(value || "").trim();
+      return cleaned === "29" ? "" : cleaned;
+    }
+
+    function balanceParentheses(value) {
+      const text = cleanImportedValue(value);
+      const opens = (text.match(/\(/g) || []).length;
+      const closes = (text.match(/\)/g) || []).length;
+      return closes < opens ? text + ")".repeat(opens - closes) : text;
+    }
+
+    function parseCSV(text) {
+      const parsed = [];
+      let row = [], cell = "", quoted = false;
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i], next = text[i + 1];
+        if (char === '"' && quoted && next === '"') { cell += '"'; i++; }
+        else if (char === '"') quoted = !quoted;
+        else if (char === "," && !quoted) { row.push(cell); cell = ""; }
+        else if ((char === "\n" || char === "\r") && !quoted) {
+          if (char === "\r" && next === "\n") i++;
+          row.push(cell);
+          if (row.some(value => String(value).trim())) parsed.push(row);
+          row = []; cell = "";
+        } else cell += char;
+      }
+      row.push(cell);
+      if (row.some(value => value.trim())) parsed.push(row);
+      return parsed;
+    }
+
+    function rowsFromGrid(parsed) {
+      const headerIndex = parsed.findIndex(row => row.map(normalizeHeader).some(header => aliases.seatId.includes(header)));
+      if (headerIndex < 0) throw new Error("Missing seatId / Seat_ID header.");
+      const headers = parsed[headerIndex].map(normalizeHeader);
+      const idx = key => headers.findIndex(header => aliases[key].includes(header));
+      const seatId = idx("seatId");
+      if (seatId < 0) throw new Error("Missing seatId / Seat_ID column.");
+      const name = idx("name");
+      const department = idx("department");
+      const directReport = idx("directReport");
+      const verification = idx("verification");
+      const title = idx("title");
+      const workspace = idx("workspace");
+      const email = idx("email");
+      const imageUrl = idx("imageUrl");
+      return parsed.slice(headerIndex + 1).map(values => {
+        const rawDepartment = cleanImportedValue(department >= 0 ? values[department] : "");
+        const rawDirectReport = cleanImportedValue(directReport >= 0 ? values[directReport] : "");
+        const legacyDepartment = rawDepartment.match(/^(.*?)\s*\((.*)\)\s*$/);
+        return {
+          seatId: cleanImportedValue(values[seatId]),
+          name: cleanImportedValue(name >= 0 ? values[name] : ""),
+          department: rawDirectReport ? rawDepartment : (legacyDepartment?.[1]?.trim() || rawDepartment),
+          directReport: balanceParentheses(rawDirectReport || legacyDepartment?.[2]?.trim() || ""),
+          verification: cleanImportedValue(verification >= 0 ? values[verification] : ""),
+          title: cleanImportedValue(title >= 0 ? values[title] : ""),
+          workspace: cleanImportedValue(workspace >= 0 ? values[workspace] : ""),
+          email: cleanImportedValue(email >= 0 ? values[email] : ""),
+          imageUrl: cleanImportedValue(imageUrl >= 0 ? values[imageUrl] : "")
+        };
+      }).filter(row => normSeat(row.seatId));
+    }
+
+    function rowsFromCSV(text) {
+      return rowsFromGrid(parseCSV(text));
+    }
+
+    function parseXml(text) {
+      const doc = new DOMParser().parseFromString(text, "application/xml");
+      const error = doc.getElementsByTagName("parsererror")[0];
+      if (error) throw new Error("Could not parse workbook XML.");
+      return doc;
+    }
+
+    async function zipText(zip, path, optional = false) {
+      const file = zip.file(path);
+      if (!file) {
+        if (optional) return "";
+        throw new Error(`Workbook is missing ${path}.`);
+      }
+      return file.async("text");
+    }
+
+    function workbookSheets(workbookXml, relsXml) {
+      const workbook = parseXml(workbookXml);
+      const rels = parseXml(relsXml);
+      const relMap = new Map(Array.from(rels.getElementsByTagName("Relationship")).map(rel => {
+        const target = rel.getAttribute("Target") || "";
+        const path = target.startsWith("/") ? target.replace(/^\/+/, "") : `xl/${target.replace(/^(\.\.\/)+/, "")}`;
+        return [rel.getAttribute("Id"), path];
+      }));
+      return Array.from(workbook.getElementsByTagName("sheet")).map(sheet => {
+        const name = sheet.getAttribute("name") || "Sheet";
+        const rid = sheet.getAttribute("r:id") || sheet.getAttribute("id");
+        return { name, path: relMap.get(rid) };
+      }).filter(sheet => sheet.path);
+    }
+
+    function sharedStringsFromXml(text) {
+      if (!text) return [];
+      const doc = parseXml(text);
+      return Array.from(doc.getElementsByTagName("si")).map(item => item.textContent || "");
+    }
+
+    function columnIndex(ref) {
+      const letters = String(ref || "").match(/^[A-Z]+/i)?.[0] || "";
+      return letters.split("").reduce((total, letter) => total * 26 + letter.toUpperCase().charCodeAt(0) - 64, 0) - 1;
+    }
+
+    function worksheetGrid(xmlText, sharedStrings) {
+      const doc = parseXml(xmlText);
+      return Array.from(doc.getElementsByTagName("row")).map(row => {
+        const values = [];
+        let fallbackIndex = 0;
+        Array.from(row.getElementsByTagName("c")).forEach(cell => {
+          const refIndex = columnIndex(cell.getAttribute("r"));
+          const index = refIndex >= 0 ? refIndex : fallbackIndex;
+          const type = cell.getAttribute("t");
+          const valueNode = cell.getElementsByTagName("v")[0];
+          let value = valueNode?.textContent || "";
+          if (type === "s") value = sharedStrings[Number(value)] || "";
+          else if (type === "inlineStr") value = cell.textContent || "";
+          values[index] = value;
+          fallbackIndex = index + 1;
+        });
+        return values.map(value => value || "");
+      });
+    }
+
+    async function readWorkbookFile(file) {
+      if (!window.JSZip) throw new Error("Excel parser did not load.");
+      const zip = await JSZip.loadAsync(file);
+      const sheets = workbookSheets(
+        await zipText(zip, "xl/workbook.xml"),
+        await zipText(zip, "xl/_rels/workbook.xml.rels")
+      );
+      const preferred = sheets.find(sheet => normalizeHeader(sheet.name) === "primeseatassignments")
+        || sheets.find(sheet => /prime|seat|assign/i.test(sheet.name))
+        || sheets[0];
+      if (!preferred) throw new Error("Workbook has no readable sheets.");
+      const sharedStrings = sharedStringsFromXml(await zipText(zip, "xl/sharedStrings.xml", true));
+      const rows = rowsFromGrid(worksheetGrid(await zipText(zip, preferred.path), sharedStrings));
+      rows.sourceSheet = preferred.name;
+      return rows;
+    }
+
+    function loadRows(rows, sourceLabel) {
+      state.rows = rows.filter(row => normSeat(row.seatId));
+      state.bySeat = new Map();
+      state.rows.forEach(row => {
+        const id = normSeat(row.seatId);
+        if (id && !state.bySeat.has(id)) state.bySeat.set(id, row);
+      });
+      state.loadedAt = new Date();
+      const dataState = document.getElementById("dataState");
+      if (dataState) dataState.textContent = sourceLabel || "";
+      updateFilterOptions();
+      render();
+    }
+
+    async function loadExcelFile(file, actionLabel = "Loaded") {
+      if (!file) return;
+      const rows = await readWorkbookFile(file);
+      const sheetLabel = rows.sourceSheet ? ` • ${rows.sourceSheet}` : "";
+      loadRows(rows, `${actionLabel} ${file.name}${sheetLabel} • ${rows.length} rows`);
+    }
+
+    async function loadLocalDataFile(file) {
+      if (!file) return;
+      const dataState = document.getElementById("dataState");
+      try {
+        if (dataState) dataState.textContent = `Loading ${file.name}...`;
+        const lowerName = String(file.name || "").toLowerCase();
+        if (lowerName.endsWith(".csv") || file.type === "text/csv") {
+          const text = await file.text();
+          const rows = rowsFromCSV(text);
+          loadRows(rows, `Loaded ${file.name} • ${rows.length} rows • ${new Date().toLocaleString()}`);
+        } else {
+          await loadExcelFile(file, "Loaded");
+        }
+      } catch (error) {
+        if (dataState) dataState.textContent = `Could not load ${file.name}. ${error?.message || error}`;
+      } finally {
+        const input = document.getElementById("dataFile");
+        if (input) input.value = "";
+      }
+    }
+
+    function cacheBustUrl(url) {
+      const separator = url.includes("?") ? "&" : "?";
+      return `${url}${separator}t=${Date.now()}`;
+    }
+
+    async function fetchFirstAvailableDataSource() {
+      const errors = [];
+      for (const url of DATA_SOURCE_URLS) {
+        try {
+          const response = await fetch(cacheBustUrl(url), {
+            cache: "no-store",
+            credentials: "include",
+            headers: { "Accept": "text/csv,text/plain,*/*" }
+          });
+          if (!response.ok) throw new Error(`${response.status} ${response.statusText || ""}`.trim());
+          const text = await response.text();
+          if (!text || !text.trim()) throw new Error("CSV was empty");
+          return { text, url };
+        } catch (error) {
+          errors.push(`${url}: ${error?.message || error}`);
+        }
+      }
+      throw new Error(errors.join(" | "));
+    }
+
+    function base64ToUtf8(base64) {
+      const binary = atob(base64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      return new TextDecoder("utf-8").decode(bytes);
+    }
+
+    function loadGeneratedData() {
+      const dataState = document.getElementById("dataState");
+      const token = "__" + "PRIME_CSV_BASE64" + "__";
+      try {
+        if (!PRIME_CSV_BASE64 || PRIME_CSV_BASE64 === token) {
+          loadRows([], "Waiting for Power Automate to generate live PRIME data...");
+          return;
+        }
+        const csvText = base64ToUtf8(PRIME_CSV_BASE64);
+        const rows = rowsFromCSV(csvText);
+        loadRows(rows, `Loaded latest scheduled data • ${rows.length} rows • ${new Date().toLocaleString()}`);
+      } catch (error) {
+        state.rows = [];
+        state.bySeat = new Map();
+        if (dataState) dataState.textContent = `Could not read generated PRIME data. ${error?.message || error}`;
+        updateFilterOptions();
+        render();
+      }
+    }
+
+    function updateFilterOptions() {
+      const populate = (id, values) => {
+        const select = document.getElementById(id);
+        const previous = select.value;
+        const options = [...new Set(values.filter(Boolean))]
+          .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+        select.innerHTML = '<option value="">All</option>' + options
+          .map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`)
+          .join("");
+        select.value = options.includes(previous) ? previous : "";
+      };
+      populate("department", state.rows.map(row => row.department));
+      populate("directReport", state.rows.map(row => row.directReport));
+    }
+
+    function render() {
+      renderMap();
+      renderDetails();
+      renderStats();
+      renderMissing();
+    }
+
+    function renderMap() {
+      const svg = document.getElementById("map");
+      const plan = floorPlans[state.floor];
+      document.getElementById("floorTitle").textContent = plan.title;
+      setView();
+      svg.innerHTML = "";
+      svg.appendChild(rectSvg(0, 0, MAP_W, MAP_H, "field", 0));
+
+      drawText(svg, plan.direction || "SOUTH WINDOWS", state.floor === "1" ? 540 : 640, 112, "direction");
+      if (state.floor === "1") {
+        "KJIHGFEDCBA".split("").forEach((letter, index) => {
+          const x = [151, 222, 292, 362, 433, 510, 588, 650, 725, 795, 865][index] + 26;
+          drawText(svg, `Row ${letter}`, x, 137, "row-label");
+        });
+      }
+      (plan.notes || []).forEach(note => drawText(svg, note.text, note.x, note.y, "zone-label"));
+      (plan.rooms || []).forEach(room => drawRoom(svg, room));
+
+      const filters = getFilters();
+      seats.forEach(seat => {
+        const group = document.createElementNS(SVG_NS, "g");
+        const seatRow = rowFor(seat.id);
+        group.setAttribute("class", "seat-group");
+        group.setAttribute("role", "button");
+        group.setAttribute("tabindex", "0");
+        group.setAttribute("aria-label", `${seat.id}${seatRow?.name ? `, ${seatRow.name}` : ", no occupant assigned"}`);
+        const cx = seat.x + seat.w / 2;
+        const cy = seat.y + seat.h / 2;
+        if (seat.rotate) group.setAttribute("transform", `rotate(${seat.rotate} ${cx} ${cy})`);
+        const status = statusFor(seat);
+        const type = workspaceClass(seat);
+        const radius = type === "office" ? 8 : type === "cubicle" ? 6 : 5;
+        let box;
+        if (seat.points) {
+          box = document.createElementNS(SVG_NS, "path");
+          box.setAttribute("d", roundedPolygonPath(seat.points, seat.cornerRadius));
+          box.setAttribute("class", `seat ${type} ${status}${state.selected === seat.id ? " selected" : ""}`);
+        } else {
+          box = rectSvg(seat.x, seat.y, seat.w, seat.h, `seat ${type} ${status}${state.selected === seat.id ? " selected" : ""}`, radius);
+        }
+        box.setAttribute("data-seat-id", seat.id);
+        if (!passesFilters(seat, filters)) box.classList.add("dimmed");
+        if (isExactPersonMatch(seat, filters)) {
+          box.classList.add("exact-person");
+          box.setAttribute("aria-label", `${rowFor(seat.id)?.name || seat.id} - exact name match`);
+        }
+        group.addEventListener("pointerdown", event => {
+          event.preventDefault();
+          event.stopPropagation();
+          state.selected = seat.id;
+          state.selectedRoom = null;
+          render();
+        });
+        group.addEventListener("keydown", event => {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
+          state.selected = seat.id;
+          state.selectedRoom = null;
+          render();
+        });
+        group.addEventListener("click", event => event.stopPropagation());
+        group.appendChild(box);
+        const text = document.createElementNS(SVG_NS, "text");
+        text.setAttribute("class", "seat-text");
+        text.setAttribute("x", cx);
+        text.setAttribute("y", cy);
+        text.textContent = seatDisplayLabel(seat);
+        if (/^[A-K]-/.test(seat.id)) {
+          text.setAttribute("font-size", "6.7");
+          text.setAttribute("transform", `rotate(-90 ${cx} ${cy})`);
+        } else if (seat.w < 25 || seat.h < 28) text.setAttribute("font-size", "5.2");
+        else if (seat.w < 50) text.setAttribute("font-size", "6.4");
+        else if (seat.w < 70) text.setAttribute("font-size", "7.4");
+        else text.setAttribute("font-size", "8.5");
+        group.appendChild(text);
+        svg.appendChild(group);
+      });
+      renderFloorTabs();
+    }
+
+    function renderDetails() {
+      const seat = seats.find(item => item.id === state.selected);
+      const room = !seat ? roomFor(state.selectedRoom) : null;
+      const selectedId = seat?.id || room?.id || "";
+      const row = selectedId ? rowFor(selectedId) : null;
+      const status = seat ? statusFor(seat) : room ? statusForId(room.id, room.workspace) : "unmatched";
+      renderPhoto(row);
+      const selectionState = document.getElementById("selectionState");
+      selectionState.classList.toggle("inactive", !seat && !room);
+      selectionState.textContent = seat || room ? "ACTIVE SELECTION" : "NO SELECTION";
+      document.getElementById("detailSeat").textContent = seat?.id || room?.id || "Select a desk";
+      const pill = document.getElementById("detailStatus");
+      pill.setAttribute("class", `status-pill ${status}`);
+      pill.textContent = seat || room ? labelFor(status) : "No selection";
+      setDetail("detailName", row?.name || (seat || room ? "No occupant assigned" : "Click a desk to view assignment details."), !row?.name);
+      setDetail("detailDept", row?.department || "Not assigned", !row?.department);
+      setDetail("detailDirectReport", row?.directReport || "Not assigned", !row?.directReport);
+      setDetail("detailTitle", row?.title || "Not assigned", !row?.title);
+      setEmailDetail(row?.email || "", !row?.email);
+    }
+
+    function renderPhoto(row) {
+      const container = document.getElementById("detailPhoto");
+      const showFallback = () => {
+        container.className = "person-photo empty";
+        container.replaceChildren();
+        container.setAttribute("aria-label", row?.name ? `No employee photo for ${row.name}` : "No employee photo");
+      };
+      container.replaceChildren();
+      if (!row?.imageUrl) {
+        showFallback();
+        return;
+      }
+      const image = new Image();
+      image.alt = row?.name ? `${row.name} employee photo` : "Employee photo";
+      image.referrerPolicy = "no-referrer";
+      image.onload = () => {
+        container.className = "person-photo";
+        container.replaceChildren(image);
+        container.setAttribute("aria-label", image.alt);
+      };
+      image.onerror = showFallback;
+      image.src = row.imageUrl;
+    }
+
+    function renderStats() {
+      const occupied = seats.filter(seat => statusFor(seat) === "occupied").length;
+      const hotel = seats.filter(seat => statusFor(seat) === "hotel").length;
+      const followup = seats.filter(seat => statusFor(seat) === "followup").length;
+      const open = seats.filter(seat => ["vacant", "unmatched"].includes(statusFor(seat))).length;
+      document.getElementById("totalSeats").textContent = seats.length;
+      document.getElementById("occupiedSeats").textContent = occupied;
+      document.getElementById("openSeats").textContent = open;
+      document.getElementById("hotelSeats").textContent = hotel;
+      document.getElementById("followupSeats").textContent = followup;
+      document.getElementById("statsTitle").textContent = `${floorPlans[state.floor].title} Summary`;
+    }
+
+    function renderMissing() {
+      const mapIds = new Set(seats.map(seat => normSeat(seat.id)));
+      const missing = [...new Set(currentFloorRows().map(row => normSeat(row.seatId)).filter(id => id && !mapIds.has(id)))];
+      const box = document.getElementById("missing");
+      box.classList.toggle("warn", Boolean(missing.length));
+      if (!currentFloorRows().length) box.textContent = "No spreadsheet data loaded for this floor.";
+      else if (!missing.length) box.textContent = "";
+      else box.innerHTML = `<b>${missing.length} spreadsheet Seat_ID values are not on this Floor 1 map:</b><br>${missing.slice(0, 45).map(escapeHtml).join(", ")}${missing.length > 45 ? "..." : ""}`;
+    }
+
+    function getFilters() {
+      return {
+        search: document.getElementById("search").value.trim().toLowerCase(),
+        department: document.getElementById("department").value,
+        directReport: document.getElementById("directReport").value,
+        status: document.getElementById("status").value
+      };
+    }
+
+    function isExactPersonMatch(seat, filters) {
+      if (!filters.search) return false;
+      const name = String(rowFor(seat.id)?.name || "").trim().toLowerCase();
+      return Boolean(name && name.includes(filters.search));
+    }
+
+    function passesFilters(seat, filters) {
+      return passesIdFilters(seat.id, seat.workspace, filters);
+    }
+
+    function passesIdFilters(id, workspace, filters) {
+      const row = rowFor(id);
+      const status = statusForId(id, workspace);
+      const haystack = [id, row?.seatId, row?.name, row?.department, row?.directReport, row?.verification, row?.title, row?.workspace, workspace].join(" ").toLowerCase();
+      if (filters.search && !haystack.includes(filters.search)) return false;
+      if (filters.department && row?.department !== filters.department) return false;
+      if (filters.directReport && row?.directReport !== filters.directReport) return false;
+      if (filters.status && status !== filters.status) return false;
+      return true;
+    }
+
+    function rectSvg(x, y, w, h, className, rx = 0) {
+      const node = document.createElementNS(SVG_NS, "rect");
+      node.setAttribute("x", x);
+      node.setAttribute("y", y);
+      node.setAttribute("width", w);
+      node.setAttribute("height", h);
+      node.setAttribute("rx", rx);
+      node.setAttribute("class", className);
+      return node;
+    }
+
+    function drawPath(svg, d, className) {
+      const node = document.createElementNS(SVG_NS, "path");
+      node.setAttribute("d", d);
+      node.setAttribute("class", className);
+      svg.appendChild(node);
+    }
+
+    function drawText(svg, text, x, y, className) {
+      const node = document.createElementNS(SVG_NS, "text");
+      node.setAttribute("x", x);
+      node.setAttribute("y", y);
+      node.setAttribute("class", className);
+      node.textContent = text;
+      svg.appendChild(node);
+    }
+
+    function drawRoom(svg, room) {
+      const group = document.createElementNS(SVG_NS, "g");
+      group.setAttribute("role", "button");
+      group.setAttribute("tabindex", "0");
+      group.setAttribute("aria-label", `${room.id} conference room`);
+      const filters = getFilters();
+      const status = statusForId(room.id, room.workspace);
+      const className = `conference-room ${status}${state.selectedRoom === room.id ? " selected" : ""}`;
+      const box = room.points
+        ? document.createElementNS(SVG_NS, "path")
+        : rectSvg(room.x, room.y, room.w, room.h, className, room.rx || 4);
+      if (room.points) {
+        box.setAttribute("d", roundedPolygonPath(room.points, room.cornerRadius || 4));
+        box.setAttribute("class", className);
+      }
+      if (!passesIdFilters(room.id, room.workspace, filters)) box.classList.add("dimmed");
+      group.addEventListener("pointerdown", event => {
+        event.preventDefault();
+        event.stopPropagation();
+        state.selected = null;
+        state.selectedRoom = room.id;
+        render();
+      });
+      group.addEventListener("keydown", event => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        state.selected = null;
+        state.selectedRoom = room.id;
+        render();
+      });
+      group.addEventListener("click", event => event.stopPropagation());
+      group.appendChild(box);
+
+      const cx = room.x + room.w / 2;
+      const cy = room.y + room.h / 2;
+      const text = document.createElementNS(SVG_NS, "text");
+      text.setAttribute("x", cx);
+      text.setAttribute("y", cy);
+      text.setAttribute("class", "conference-room-text");
+      const lines = String(room.label || room.id).split("\n");
+      if (lines.length === 1) {
+        text.textContent = lines[0];
+      } else {
+        lines.forEach((line, index) => {
+          const tspan = document.createElementNS(SVG_NS, "tspan");
+          tspan.setAttribute("x", cx);
+          tspan.setAttribute("dy", index === 0 ? `${-(lines.length - 1) * .55}em` : "1.1em");
+          tspan.textContent = line;
+          text.appendChild(tspan);
+        });
+      }
+      if (room.fontSize) text.setAttribute("font-size", room.fontSize);
+      group.appendChild(text);
+      svg.appendChild(group);
+    }
+
+    function setDetail(id, value, muted) {
+      const node = document.getElementById(id);
+      node.textContent = value;
+      node.classList.toggle("muted", muted);
+    }
+
+    function setEmailDetail(email, muted) {
+      const node = document.getElementById("detailEmail");
+      node.replaceChildren();
+      node.classList.toggle("muted", muted);
+      if (!email) {
+        node.textContent = "Not assigned";
+        return;
+      }
+      const link = document.createElement("a");
+      link.href = `mailto:${email}`;
+      link.textContent = email;
+      link.style.color = "inherit";
+      link.style.textDecoration = "none";
+      node.appendChild(link);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char]));
+    }
+
+    function floorContentBounds() {
+      const plan = floorPlans[state.floor] || {};
+      const activeSeats = (seats && seats.length ? seats : plan.seats) || [];
+      const activeRooms = plan.rooms || [];
+      if (!activeSeats.length && !activeRooms.length) return { x: 0, y: 0, w: MAP_W, h: MAP_H };
+
+      const xs = [];
+      const ys = [];
+
+      [...activeSeats, ...activeRooms].forEach(item => {
+        if (item.points && item.points.length) {
+          item.points.forEach(point => {
+            xs.push(point[0]);
+            ys.push(point[1]);
+          });
+        } else {
+          xs.push(item.x, item.x + item.w);
+          ys.push(item.y, item.y + item.h);
+        }
+      });
+
+      const pad = 95;
+      const minX = Math.max(0, Math.min(...xs) - pad);
+      const minY = Math.max(0, Math.min(...ys) - pad);
+      const maxX = Math.min(MAP_W, Math.max(...xs) + pad);
+      const maxY = Math.min(MAP_H, Math.max(...ys) + pad);
+
+      return {
+        x: minX,
+        y: minY,
+        w: Math.max(100, maxX - minX),
+        h: Math.max(100, maxY - minY)
+      };
+    }
+
+    function fittedViewBox() {
+      const bounds = floorContentBounds();
+      const viewport = document.getElementById("viewport");
+      const rect = viewport?.getBoundingClientRect?.();
+      const aspect = rect && rect.width > 0 && rect.height > 0 ? rect.width / rect.height : 16 / 9;
+
+      let viewW = bounds.w;
+      let viewH = bounds.h;
+      const boundsAspect = viewW / viewH;
+
+      if (boundsAspect > aspect) {
+        viewH = viewW / aspect;
+      } else {
+        viewW = viewH * aspect;
+      }
+
+      const zoom = Math.max(1, state.zoom || 1);
+      viewW = Math.min(MAP_W, viewW / zoom);
+      viewH = Math.min(MAP_H, viewH / zoom);
+
+      const centerX = bounds.x + bounds.w / 2 + (state.panX || 0);
+      const centerY = bounds.y + bounds.h / 2 + (state.panY || 0);
+
+      return {
+        x: Math.max(0, Math.min(MAP_W - viewW, centerX - viewW / 2)),
+        y: Math.max(0, Math.min(MAP_H - viewH, centerY - viewH / 2)),
+        w: viewW,
+        h: viewH
+      };
+    }
+
+    function setView() {
+      const box = fittedViewBox();
+      document.getElementById("map").setAttribute("viewBox", `${box.x} ${box.y} ${box.w} ${box.h}`);
+      document.getElementById("map").setAttribute("preserveAspectRatio", "xMidYMid meet");
+      document.getElementById("zoomLabel").textContent = `${Math.round((state.zoom || 1) * 100)}%`;
+    }
+
+    function fitView() {
+      state.zoom = 1;
+      state.panX = 0;
+      state.panY = 0;
+      setView();
+    }
+
+
+    function renderFloorTabs() {
+      const tabs = document.getElementById("floorTabs");
+      if (!tabs) return;
+      tabs.innerHTML = Object.entries(floorPlans).map(([floor, plan]) => `<button class="floor-tab${floor === state.floor ? " active" : ""}" type="button" data-floor="${floor}">${escapeHtml(plan.title)}</button>`).join("");
+    }
+
+    function setFloor(floor) {
+      if (!floorPlans[floor]) return;
+      state.floor = floor;
+      seats = floorPlans[floor].seats;
+      state.selected = null;
+      state.selectedRoom = null;
+      fitView();
+      updateFilterOptions();
+      render();
+    }
+
+    document.getElementById("floorTabs").addEventListener("click", event => {
+      const button = event.target.closest("button[data-floor]");
+      if (button) setFloor(button.dataset.floor);
+    });
+    ["search", "department", "directReport", "status"].forEach(id => {
+      document.getElementById(id).addEventListener("input", render);
+      document.getElementById(id).addEventListener("change", render);
+    });
+    document.getElementById("reset").addEventListener("click", () => {
+      document.getElementById("search").value = "";
+      document.getElementById("department").value = "";
+      document.getElementById("directReport").value = "";
+      document.getElementById("status").value = "";
+      render();
+    });
+    document.getElementById("labelMode").addEventListener("change", event => {
+      state.labelMode = event.target.checked ? "person" : "seat";
+      renderMap();
+    });
+    document.getElementById("zoomIn").addEventListener("click", () => {
+      state.zoom = Math.min(2.8, state.zoom * 1.2);
+      setView();
+    });
+    document.getElementById("zoomOut").addEventListener("click", () => {
+      state.zoom = Math.max(1, state.zoom / 1.2);
+      if (state.zoom === 1) { state.panX = 0; state.panY = 0; }
+      setView();
+    });
+    document.getElementById("fit").addEventListener("click", fitView);
+
+    const viewport = document.getElementById("viewport");
+    viewport.addEventListener("pointerdown", event => {
+      event.preventDefault();
+      state.dragging = true;
+      state.dragStart = { x: event.clientX, y: event.clientY, panX: state.panX, panY: state.panY };
+      viewport.classList.add("dragging");
+      viewport.setPointerCapture(event.pointerId);
+    });
+    viewport.addEventListener("pointermove", event => {
+      if (!state.dragging || !state.dragStart) return;
+      event.preventDefault();
+      const scaleX = MAP_W / viewport.clientWidth / state.zoom;
+      const scaleY = MAP_H / viewport.clientHeight / state.zoom;
+      state.panX = state.dragStart.panX - (event.clientX - state.dragStart.x) * scaleX;
+      state.panY = state.dragStart.panY - (event.clientY - state.dragStart.y) * scaleY;
+      setView();
+    });
+    viewport.addEventListener("pointerup", event => {
+      state.dragging = false;
+      state.dragStart = null;
+      viewport.classList.remove("dragging");
+      viewport.releasePointerCapture(event.pointerId);
+    });
+    viewport.addEventListener("wheel", event => {
+      event.preventDefault();
+      state.zoom = Math.max(1, Math.min(2.8, event.deltaY < 0 ? state.zoom * 1.08 : state.zoom / 1.08));
+      if (state.zoom === 1) { state.panX = 0; state.panY = 0; }
+      setView();
+    }, { passive: false });
+
+    const responsiveResizeObserver = new ResizeObserver(() => {
+      setView();
+    });
+    responsiveResizeObserver.observe(document.getElementById("viewport"));
+
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) loadGeneratedData();
+    });
+
+    renderFloorTabs();
+    loadRows(EMBEDDED_ROWS, "Waiting for Power Automate to generate live PRIME data...");
+    loadGeneratedData();
+    window.setInterval(() => {
+      // Pull the newest generated HTML copy without adding a visible refresh button.
+      window.location.reload();
+    }, 5 * 60 * 1000);
+  </script>
+</body>
+</html>
